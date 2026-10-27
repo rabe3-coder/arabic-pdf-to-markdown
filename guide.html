@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1120">
+  <title>دليل الاستخدام وإصلاح العربية | PDF → Markdown</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .guide-shell { width:min(980px,calc(100% - 32px)); margin:0 auto; padding:28px 0 48px; }
+    .guide-topbar { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:28px; }
+    .back-link { display:inline-flex; align-items:center; gap:8px; color:var(--accent); text-decoration:none; border:1px solid var(--line); border-radius:11px; padding:9px 13px; background:#111b2e; }
+    .back-link:hover { border-color:var(--accent); }
+    .guide-hero { padding:clamp(24px,5vw,48px); border:1px solid var(--line); border-radius:24px; background:radial-gradient(ellipse at top left,#203753 0%,#111b2e 60%); margin-bottom:22px; }
+    .guide-hero .tag { display:inline-block; border:1px solid #35516c; border-radius:999px; padding:5px 11px; color:var(--accent); font-size:.82rem; font-weight:700; }
+    .guide-hero h1 { margin:16px 0 10px; }
+    .guide-hero p { max-width:760px; color:var(--muted); margin:0; }
+    .guide-note { margin-top:20px; padding:13px 15px; border-right:3px solid #f5c76b; border-radius:10px; background:#302a1c; color:#f8dfaa; font-size:.9rem; }
+    .guide-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .guide-card { min-width:0; padding:clamp(17px,3vw,25px); border:1px solid var(--line); border-radius:18px; background:rgba(17,27,46,.94); box-shadow:0 16px 42px #0002; }
+    .guide-card.wide { grid-column:1/-1; }
+    .guide-card h2 { display:flex; align-items:center; gap:10px; margin:0 0 12px; font-size:1.18rem; }
+    .step-no { display:grid; place-items:center; width:32px; height:32px; flex:0 0 32px; border-radius:10px; background:var(--accent); color:var(--accent-ink); font-size:.9rem; font-weight:900; }
+    .guide-card p,.guide-card li { color:#c4d0e2; }
+    .guide-card p { margin:9px 0; }
+    .guide-card ul,.guide-card ol { padding-right:22px; }
+    .codebox { position:relative; direction:ltr; text-align:left; margin:12px 0 16px; background:#070e1a; border:1px solid #293b53; border-radius:12px; overflow:hidden; }
+    .codebox .code-label { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:7px 12px; color:#93a8c4; background:#101b2d; border-bottom:1px solid #293b53; font-size:.74rem; }
+    .copy-btn { border:1px solid #3a506c; background:#1b2a40; color:#eaf2ff; border-radius:7px; padding:4px 9px; cursor:pointer; font:inherit; }
+    .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
+    .codebox pre { direction:ltr; text-align:left; white-space:pre; overflow-x:auto; margin:0; padding:14px; color:#d8e6fa; font:13px/1.7 Consolas,Monaco,monospace; }
+    code.inline { direction:ltr; unicode-bidi:embed; color:#a9f2da; background:#0a1524; border:1px solid #293b53; padding:2px 6px; border-radius:6px; font: .88em Consolas,monospace; overflow-wrap:anywhere; }
+    .callout { padding:13px 15px; border-radius:11px; margin:13px 0; border-right:3px solid var(--accent); background:#102b2a; color:#c9f5e9; }
+    .callout.warn { border-right-color:#f5c76b; background:#302a1c; color:#f8dfaa; }
+    .table-wrap { overflow-x:auto; margin-top:12px; border:1px solid var(--line); border-radius:12px; }
+    table { width:100%; border-collapse:collapse; min-width:460px; }
+    th,td { padding:12px 14px; border-bottom:1px solid var(--line); text-align:right; vertical-align:top; }
+    th { background:#17243a; color:#f0f5ff; }
+    td { color:#c4d0e2; }
+    tr:last-child td { border-bottom:0; }
+    .guide-footer { text-align:center; color:#8798b2; font-size:.82rem; margin-top:26px; }
+
+    .guide-tools { margin:0 0 22px; padding:17px; border:1px solid var(--line); border-radius:18px; background:#111b2e; }
+    .guide-search { display:flex; align-items:center; gap:10px; padding:10px 13px; border:1px solid #344862; border-radius:12px; background:#080f1d; color:var(--accent); }
+    .guide-search input { flex:1; min-width:0; border:0; outline:0; background:transparent; color:#eef5ff; font:inherit; }
+    .guide-search kbd { color:#8da1bd; font-size:.72rem; border:1px solid #344862; padding:3px 6px; border-radius:6px; white-space:nowrap; }
+    .guide-progress { height:4px; margin-top:13px; background:#26354b; border-radius:99px; overflow:hidden; }
+    .guide-progress span { display:block; width:0; height:100%; background:var(--accent); transition:width .15s; }
+    .search-status { margin:8px 0 0; color:#91a3bd; font-size:.78rem; }
+    .guide-toc { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .guide-toc a { text-decoration:none; border:1px solid #2e415a; background:#17243a; color:#c7d7ec; border-radius:9px; padding:6px 10px; font-size:.82rem; }
+    .guide-toc a:hover { color:var(--accent); border-color:var(--accent); }
+    .faq-item { border:1px solid #2c3d55; border-radius:11px; margin:10px 0; overflow:hidden; background:#0e1828; }
+    .faq-item summary { cursor:pointer; padding:13px 15px; color:#edf4ff; font-weight:700; }
+    .faq-item summary::marker { color:var(--accent); }
+    .faq-item > div { padding:0 15px 13px; }
+    .faq-item p { margin:7px 0; }
+    .checklist { display:grid; gap:10px; margin-top:14px; }
+    .checklist label { display:flex; align-items:flex-start; gap:10px; padding:11px 12px; border:1px solid #2b3e57; border-radius:10px; color:#d4dfef; background:#0e1828; cursor:pointer; }
+    .checklist input { margin-top:6px; accent-color:#76e4c2; }
+    .checklist label:has(input:checked) { border-color:#367b6d; color:#8ee8ce; }
+    .search-hidden { display:none !important; }
+    @media(max-width:700px) { .guide-search kbd { display:none; } .guide-toc { gap:6px; } .guide-toc a { font-size:.76rem; } }
+
+    @media(max-width:700px) { .guide-grid { grid-template-columns:1fr; } .guide-card.wide { grid-column:auto; } .guide-topbar { align-items:flex-start; flex-direction:column; } }
+  </style>
+</head>
+<body>
+  <main class="guide-shell">
+    <div class="guide-topbar">
+      <div class="brand-mark">PDF<span>→</span>MD <span style="color:var(--muted);font-weight:500;letter-spacing:0">/ دليل الاستخدام</span></div>
+      <a class="back-link" href="./index.html">← العودة إلى أداة التحويل</a>
+    </div>
+
+    <header class="guide-hero">
+      <span class="tag">دليل عملي خطوة بخطوة</span>
+      <h1>تحويل PDF إلى Markdown وإصلاح النص العربي</h1>
+      <p>دليل لاستخدام MarkItDown أو PyMuPDF4LLM من موجه الأوامر في Windows، ثم تشغيل سكربت بسيط لتنظيف النص الناتج. يمكنك نسخ الأوامر مباشرةً.</p>
+      <div class="guide-note"><strong>قبل البدء:</strong> هذه الطريقة تعمل بأدوات Python على جهازك، وهي منفصلة عن أداة التحويل الموجودة في الصفحة الرئيسية والتي تعمل داخل المتصفح.</div>
+    </header>
+
+
+    <section class="guide-tools" aria-label="البحث والتنقل في الدليل">
+      <label class="guide-search">
+        <span aria-hidden="true">⌕</span>
+        <input id="guideSearch" type="search" placeholder="ابحث في الدليل: Python، OCR، خطأ، إصلاح العربية..." autocomplete="off">
+        <kbd>Ctrl K</kbd>
+      </label>
+      <div class="guide-progress"><span id="progressFill"></span></div>
+      <p class="search-status" id="searchStatus" aria-live="polite">اختر قسمًا من الفهرس أو ابحث عن الخطوة التي تحتاجها.</p>
+      <nav class="guide-toc" aria-label="فهرس الدليل">
+        <a href="#python">Python</a>
+        <a href="#install">تثبيت الأدوات</a>
+        <a href="#convert">التحويل</a>
+        <a href="#repair">سكربت الإصلاح</a>
+        <a href="#compare">مقارنة الأدوات</a>
+        <a href="#troubleshoot">حل المشكلات</a>
+        <a href="#checklist">قائمة التحقق</a>
+      </nav>
+    </section>
+
+    <div class="guide-grid">
+      <section class="guide-card searchable" id="python" data-search="python تثبيت إصدار التحقق cmd terminal">
+        <h2><span class="step-no">1</span> التحقق من Python</h2>
+        <p>افتح CMD أو Terminal واكتب الأمر التالي:</p>
+        <div class="codebox"><div class="code-label"><span>CMD / PowerShell</span><button class="copy-btn" type="button">نسخ</button></div><pre>python --version</pre></div>
+        <p>إذا ظهر رقم إصدار، فهذا يعني أن Python متاح من سطر الأوامر. إذا لم يظهر، ثبّت Python من الموقع الرسمي وتأكد من تفعيل خيار إضافته إلى PATH أثناء التثبيت.</p>
+      </section>
+
+      <section class="guide-card searchable" id="install" data-search="تثبيت markitdown pymupdf4llm pip python أدوات">
+        <h2><span class="step-no">2</span> تثبيت أدوات التحويل</h2>
+        <p>لتثبيت MarkItDown مع إضافاته:</p>
+        <div class="codebox"><div class="code-label"><span>CMD / PowerShell</span><button class="copy-btn" type="button">نسخ</button></div><pre>python -m pip install "markitdown[all]"</pre></div>
+        <p>بديل يمكنك تجربته لاستخراج PDF مع تخطيط الصفحة:</p>
+        <div class="codebox"><div class="code-label"><span>CMD / PowerShell</span><button class="copy-btn" type="button">نسخ</button></div><pre>python -m pip install pymupdf4llm</pre></div>
+        <div class="callout warn">قد تختلف جودة استخراج العربية بين ملف وآخر. لا تفترض أن إحدى الأداتين ستكون الأفضل دائمًا؛ اختبرهما على صفحات من ملفك وقارن النتيجة.</div>
+      </section>
+
+      <section class="guide-card searchable" id="folder" data-search="مجلد cd dir مسار ملف windows cmd">
+        <h2><span class="step-no">3</span> الانتقال إلى مجلد الملف</h2>
+        <p>في CMD انتقل إلى المجلد الذي يحتوي على ملف PDF. مثال توضيحي (عدّل المسار بما يناسب جهازك):</p>
+        <div class="codebox"><div class="code-label"><span>CMD</span><button class="copy-btn" type="button">نسخ</button></div><pre>cd "C:\\Users\\YourName\\Documents\\PDFs"</pre></div>
+        <p>تحقق من أسماء الملفات الموجودة في المجلد:</p>
+        <div class="codebox"><div class="code-label"><span>CMD</span><button class="copy-btn" type="button">نسخ</button></div><pre>dir</pre></div>
+        <p>استبدل <code class="inline">input.pdf</code> في الأمثلة التالية باسم ملف PDF الحقيقي.</p>
+      </section>
+
+      <section class="guide-card searchable" id="convert" data-search="تحويل pdf markdown markitdown pymupdf4llm output md">
+        <h2><span class="step-no">4</span> تحويل PDF إلى Markdown</h2>
+        <p><strong>باستخدام MarkItDown:</strong></p>
+        <div class="codebox"><div class="code-label"><span>CMD</span><button class="copy-btn" type="button">نسخ</button></div><pre>python -m markitdown input.pdf -o output.md</pre></div>
+        <p><strong>باستخدام PyMuPDF4LLM:</strong></p>
+        <div class="codebox"><div class="code-label"><span>CMD</span><button class="copy-btn" type="button">نسخ</button></div><pre>python -c "import pymupdf4llm; open('output.md','w',encoding='utf-8').write(pymupdf4llm.to_markdown('input.pdf'))"</pre></div>
+        <div class="callout">إذا كان اسم الملف يحتوي على مسافات، استخدم الاسم بين علامتي اقتباس داخل الأمر، أو أعد تسميته مؤقتًا إلى اسم بسيط.</div>
+      </section>
+
+      <section class="guide-card wide searchable" id="repair" data-search="إصلاح العربية سكربت python fix_arabic_md مسافات تطويل rtl">
+        <h2><span class="step-no">5</span> إنشاء سكربت تنظيف العربية</h2>
+        <p>أنشئ ملفًا باسم <code class="inline">fix_arabic_md.py</code> في المجلد نفسه، ثم انسخ الكود التالي واحفظه بترميز UTF-8.</p>
+        <div class="codebox"><div class="code-label"><span>Python · fix_arabic_md.py</span><button class="copy-btn" type="button">نسخ الكود</button></div><pre>import re
+import sys
+from pathlib import Path
+
+
+def fix_arabic_text(text: str) -> str:
+    # إزالة التطويل العربي وتنظيف المسافات الأفقية الزائدة.
+    text = text.replace("ـ", "")
+    text = re.sub(r"[ \t]+", " ", text)
+
+    # حذف المسافات الموجودة قبل نهاية السطر.
+    text = re.sub(r"[ \t]+\n", "\n", text)
+
+    # تقليل الأسطر الفارغة المتكررة دون تغيير فواصل Markdown.
+    text = re.sub(r"\n{3,}", "\n\n", text)
+
+    # علامة اتجاه خفية في بداية الأسطر التي تحتوي على أحرف عربية.
+    lines = []
+    for line in text.splitlines():
+        if re.search(r"[\u0600-\u06FF]", line) and not line.startswith("\u200f"):
+            lines.append("\u200f" + line)
+        else:
+            lines.append(line)
+
+    return "\n".join(lines).strip() + "\n"
+
+
+def main() -> int:
+    if len(sys.argv) != 2:
+        print("الاستخدام: python fix_arabic_md.py <file.md>")
+        return 1
+
+    input_path = Path(sys.argv[1])
+    if not input_path.is_file():
+        print(f"خطأ: الملف غير موجود: {input_path}")
+        return 1
+
+    try:
+        content = input_path.read_text(encoding="utf-8")
+        fixed_content = fix_arabic_text(content)
+        output_path = input_path.with_name(f"{input_path.stem}_fixed.md")
+        output_path.write_text(fixed_content, encoding="utf-8")
+        print(f"تم حفظ الملف بعد التنظيف: {output_path}")
+        return 0
+    except UnicodeError:
+        print("تعذر قراءة الملف بترميز UTF-8. تحقق من ترميز الملف.")
+        return 1
+    except OSError as exc:
+        print(f"حدث خطأ أثناء قراءة الملف أو حفظه: {exc}")
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())</pre></div>
+        <div class="callout warn"><strong>حدود السكربت:</strong> ينظف المسافات والتطويل ويضيف علامة اتجاه لبعض الأسطر، لكنه لا يعيد بناء الكلمات التي استخرجتها أداة PDF بحروف منفصلة، ولا يصلح كل حالات ترتيب العربية. احتفظ دائمًا بالملف الأصلي وقارن الناتج قبل الاعتماد عليه.</div>
+      </section>
+
+      <section class="guide-card searchable" id="run-repair" data-search="تشغيل سكربت الإصلاح output_fixed md">
+        <h2><span class="step-no">6</span> تشغيل سكربت الإصلاح</h2>
+        <p>نفّذ الأمر التالي في المجلد نفسه، مع استخدام اسم ملف Markdown الذي أنشأته:</p>
+        <div class="codebox"><div class="code-label"><span>CMD / PowerShell</span><button class="copy-btn" type="button">نسخ</button></div><pre>python fix_arabic_md.py output.md</pre></div>
+        <p>سيُنشأ ملف جديد باسم <code class="inline">output_fixed.md</code>. إذا كان اسم الملف الأصلي مختلفًا، سيتبع الملف الجديد الاسم نفسه مع إضافة <code class="inline">_fixed</code>.</p>
+      </section>
+
+      <section class="guide-card searchable" id="workflow" data-search="سير العمل ملخص تحويل تنظيف النتيجة">
+        <h2><span class="step-no">7</span> سير العمل المختصر</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>المرحلة</th><th>الأمر</th></tr></thead>
+            <tbody>
+              <tr><td>تثبيت أداة التحويل</td><td><code class="inline">python -m pip install "markitdown[all]"</code></td></tr>
+              <tr><td>استخراج PDF</td><td><code class="inline">python -m markitdown input.pdf -o output.md</code></td></tr>
+              <tr><td>تنظيف النص</td><td><code class="inline">python fix_arabic_md.py output.md</code></td></tr>
+              <tr><td>النتيجة</td><td><code class="inline">output_fixed.md</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+
+      <section class="guide-card wide searchable" id="compare" data-search="مقارنة الأدوات المتصفح markitdown pymupdf4llm OCR">
+        <h2><span class="step-no">↔</span> مقارنة طرق التحويل</h2>
+        <p>لا توجد أداة تضمن أفضل نتيجة لكل ملفات PDF. اختر الطريقة وفق نوع الملف ثم قارن المخرجات.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>الطريقة</th><th>متى تستخدمها؟</th><th>نقاط الانتباه</th></tr></thead>
+            <tbody>
+              <tr><td>أداة المتصفح في هذا المشروع</td><td>تجربة سريعة دون تثبيت Python، مع إمكانية معالجة الصفحات المصوّرة إذا كانت إعدادات OCR متاحة.</td><td>تعتمد على المكتبات المحمّلة في المتصفح؛ جودة ترتيب العربية تختلف حسب الملف.</td></tr>
+              <tr><td>MarkItDown</td><td>تجربة تحويل من CMD ضمن سير عمل محلي.</td><td>قد يحتاج إلى إضافات أو إعدادات بحسب نوع الملف؛ راجع الجداول والترتيب بعد التحويل.</td></tr>
+              <tr><td>PyMuPDF4LLM</td><td>تجربة استخراج تراعي تخطيط الصفحة وتنتج Markdown.</td><td>لا يضمن إصلاح كل حالات النص العربي أو التعرف على الصور دون OCR مناسب.</td></tr>
+              <tr><td>OCR</td><td>عندما تكون الصفحة صورة ولا يمكن تحديد النص داخلها.</td><td>يتأثر بدقة المسح والوضوح والخط واللغة المختارة.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">أفضل اختبار عملي: اختر صفحة ممثلة من ملفك، وحوّلها بأكثر من طريقة، ثم قارن الكلمات والعناوين والقوائم يدويًا قبل اعتماد النتيجة.</div>
+      </section>
+
+      <section class="guide-card wide searchable" id="troubleshoot" data-search="حل المشكلات خطأ pip python command not found العربية معكوسة حروف منفصلة OCR">
+        <h2><span class="step-no">?</span> حل المشكلات الشائعة</h2>
+        <details class="faq-item">
+          <summary>الأمر <code class="inline">python</code> غير معروف في CMD</summary>
+          <div><p>جرّب:</p><div class="codebox"><div class="code-label"><span>CMD</span><button class="copy-btn" type="button">نسخ</button></div><pre>py --version</pre></div><p>إذا عمل الأمر، يمكنك استخدام <code class="inline">py -m pip</code> بدلًا من <code class="inline">python -m pip</code>. إذا لم يعمل أي منهما، تحقق من تثبيت Python وإضافته إلى PATH.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>ظهرت رسالة خطأ أثناء تثبيت المكتبة</summary>
+          <div><p>اقرأ آخر سطور الخطأ أولًا، وتأكد من اتصال الإنترنت وإصدار Python. لا تكرر أوامر تثبيت عشوائية؛ انسخ رسالة الخطأ كاملة لتحديد السبب.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>النص العربي يظهر حروفًا منفصلة أو كلمات بترتيب خاطئ</summary>
+          <div><p>قد يكون السبب طريقة تخزين النص في PDF أو ترتيب العناصر التي استخرجتها الأداة. علامة RTL تؤثر في العرض غالبًا، لكنها لا تعيد بناء النص التالف. جرّب محرك استخراج آخر، وافحص النص الناتج قبل تشغيل أي إصلاح.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>الملف لا يحتوي على نص قابل للتحديد</summary>
+          <div><p>قد يكون PDF ممسوحًا كصور. ستحتاج إلى OCR للتعرف على الحروف. تأكد من اختيار العربية ضمن لغات OCR، ثم راجع النتيجة لأن التعرف الآلي قد يخطئ.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>زر نسخ الأوامر لا يعمل</summary>
+          <div><p>قد يمنع المتصفح النسخ خارج سياق آمن. شغّل الموقع عبر Live Server أو عنوان HTTPS، أو حدّد الكود يدويًا وانسخه.</p></div>
+        </details>
+      </section>
+
+      <section class="guide-card wide searchable" id="checklist" data-search="قائمة تحقق قبل التسليم مراجعة النتيجة النسخة الأصلية">
+        <h2><span class="step-no">✓</span> قائمة تحقق قبل اعتماد الملف</h2>
+        <p>علّم العناصر بعد مراجعتها. يتم حفظ الاختيارات في المتصفح على هذا الجهاز فقط.</p>
+        <div class="checklist">
+          <label><input type="checkbox"> قارنت أول صفحة من Markdown مع PDF الأصلي.</label>
+          <label><input type="checkbox"> تحققت من ترتيب الكلمات العربية واتجاهها.</label>
+          <label><input type="checkbox"> راجعت العناوين والقوائم والجداول.</label>
+          <label><input type="checkbox"> تحققت من الصفحات المصوّرة ونتائج OCR إن وجدت.</label>
+          <label><input type="checkbox"> احتفظت بنسخة من PDF والملف الناتج قبل الإصلاح.</label>
+        </div>
+        <div class="callout warn">لا تعتمد على سكربت التنظيف وحده للتأكد من صحة المحتوى؛ التنظيف الشكلي قد لا يصلح أخطاء الاستخراج.</div>
+      </section>
+
+      <section class="guide-card wide searchable" id="choose" data-search="اختيار الأداة مقارنة browser browser OCR markitdown pymupdf4llm">
+        <h2><span class="step-no">✓</span> أي طريقة أختار؟</h2>
+        <ul>
+          <li><strong>الصفحة الرئيسية للمشروع:</strong> جرّب التحويل مباشرة من المتصفح دون تثبيت Python.</li>
+          <li><strong>MarkItDown / PyMuPDF4LLM:</strong> استخدمهما من CMD عندما تريد تجربة محرك استخراج مختلف أو العمل على الملفات محليًا.</li>
+          <li><strong>عندما تكون الصفحة صورة:</strong> قد تحتاج إلى OCR. استخراج النصوص من PDF لا يعني بالضرورة أن الأداة ستتعرف على النص داخل الصور.</li>
+          <li><strong>قبل الاعتماد على النتيجة:</strong> راجع العناوين والقوائم والجداول واتجاه العربية، واحتفظ بنسخة من PDF الأصلي.</li>
+        </ul>
+        <a class="guide-link" href="./index.html" style="margin-top:18px;width:100%">
+          <span aria-hidden="true">PDF</span>
+          <span><strong>العودة إلى أداة تحويل PDF</strong><small>ارفع ملفًا وجرّب استخراج النص من المتصفح</small></span>
+          <span class="arrow" aria-hidden="true">←</span>
+        </a>
+      </section>
+    </div>
+
+    <footer class="guide-footer">
+      <p>PDF → Markdown · دليل الاستخدام</p>
+      <p>قد تختلف النتائج حسب بنية ملف PDF وجودة النص أو الصورة. راجع المخرجات دائمًا.</p>
+    </footer>
+  </main>
+  <script>
+    // Search/filter guide cards
+    const searchInput = document.getElementById('guideSearch');
+    const searchStatus = document.getElementById('searchStatus');
+    const searchableCards = [...document.querySelectorAll('.searchable')];
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim().toLocaleLowerCase('ar');
+        let visible = 0;
+        searchableCards.forEach(card => {
+          const haystack = (card.innerText + ' ' + (card.dataset.search || '')).toLocaleLowerCase('ar');
+          const match = !query || haystack.includes(query);
+          card.classList.toggle('search-hidden', !match);
+          if (match) visible++;
+        });
+        searchStatus.textContent = query ? `الأقسام المطابقة: ${visible}` : 'اختر قسمًا من الفهرس أو ابحث عن الخطوة التي تحتاجها.';
+      });
+      document.addEventListener('keydown', event => {
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+          event.preventDefault();
+          searchInput.focus();
+        }
+        if (event.key === 'Escape' && document.activeElement === searchInput) {
+          searchInput.value = '';
+          searchInput.dispatchEvent(new Event('input'));
+          searchInput.blur();
+        }
+      });
+    }
+
+    // Reading progress
+    const progressFill = document.getElementById('progressFill');
+    function updateProgress() {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const value = max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0;
+      if (progressFill) progressFill.style.width = value + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    updateProgress();
+
+    // Persist checklist locally in this browser only.
+    document.querySelectorAll('.checklist input[type="checkbox"]').forEach((checkbox, index) => {
+      const key = `pdfmd-guide-check-${index}`;
+      checkbox.checked = localStorage.getItem(key) === 'true';
+      checkbox.addEventListener('change', () => localStorage.setItem(key, String(checkbox.checked)));
+    });
+
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', async () => {
+        const pre = button.closest('.codebox').querySelector('pre');
+        const text = pre.innerText;
+        const original = button.innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          button.innerText = 'تم النسخ ✓';
+          button.style.color = '#76e4c2';
+        } catch (error) {
+          const range = document.createRange();
+          range.selectNodeContents(pre);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+          button.innerText = 'حدّد النص وانسخه';
+        }
+        setTimeout(() => {
+          button.innerText = original;
+          button.style.color = '';
+        }, 1800);
+      });
+    });
+  </script>
+</body>
+</html>

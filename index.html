@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>PDF إلى Markdown | عربي</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div class="brand-mark">PDF<span>→</span>MD</div>
+      <p class="eyebrow">أداة مجانية تعمل داخل متصفحك</p>
+      <h1>حوّل ملفات PDF إلى Markdown</h1>
+      <p class="subtitle">استخراج النصوص العربية والإنجليزية، مع OCR للصفحات المصوّرة.</p>
+      <nav class="hero-actions" aria-label="روابط المشروع">
+        <a class="guide-link" href="./guide.html">
+          <span aria-hidden="true">⌘</span>
+          <span><strong>دليل الاستخدام وإصلاح العربية</strong><small>أوامر CMD، التحويل، وتشغيل سكربت الإصلاح</small></span>
+          <span class="arrow" aria-hidden="true">←</span>
+        </a>
+      </nav>
+    </header>
+
+    <section class="panel" aria-label="تحويل ملف PDF">
+      <label class="dropzone" id="dropzone" for="pdfFile">
+        <span class="upload-icon" aria-hidden="true">↑</span>
+        <strong>اسحب ملف PDF إلى هنا</strong>
+        <span>أو اضغط لاختيار ملف من جهازك</span>
+        <small>ملف واحد في كل مرة · يُفضّل البدء بملف صغير للاختبار</small>
+        <input id="pdfFile" type="file" accept="application/pdf,.pdf">
+      </label>
+      <div id="fileInfo" class="file-info hidden"></div>
+      <div class="settings">
+        <label class="check-row">
+          <input id="useOcr" type="checkbox" checked>
+          <span><strong>استخدام OCR عند الحاجة</strong><small>يحاول قراءة الصفحات المصوّرة أو الصفحات التي لا تحتوي على نص كافٍ.</small></span>
+        </label>
+        <label class="check-row">
+          <input id="arabicMode" type="checkbox" checked>
+          <span><strong>تحسين ترتيب عناصر النص العربي</strong><small>يحاول ترتيب مقاطع النص بحسب مواضعها في الصفحة؛ لا يعكس أحرف الكلمات عشوائيًا.</small></span>
+        </label>
+        <label class="field">
+          <span>لغة OCR</span>
+          <select id="ocrLanguage">
+            <option value="ara+eng" selected>العربية والإنجليزية</option>
+            <option value="ara">العربية</option>
+            <option value="eng">الإنجليزية</option>
+          </select>
+        </label>
+      </div>
+      <button id="convertBtn" class="primary" disabled>تحويل إلى Markdown</button>
+      <div id="status" class="status" role="status" aria-live="polite">اختر ملف PDF للبدء.</div>
+      <div class="progress-track hidden" id="progressTrack"><div id="progressBar"></div></div>
+      <p class="privacy">🔒 تتم معالجة ملف PDF داخل متصفحك. مكتبة OCR ومحركها يُحمّلان من CDN عند الحاجة، بينما بيانات اللغة العربية والإنجليزية مضمّنة محليًا.</p>
+    </section>
+
+    <section id="resultSection" class="panel result hidden">
+      <div class="result-head"><div><p class="eyebrow">اكتمل التحويل</p><h2>النتيجة</h2></div><button id="downloadBtn" class="primary small">تنزيل ملف .md</button></div>
+      <textarea id="output" spellcheck="false" aria-label="معاينة Markdown"></textarea>
+      <p class="hint">راجع النص قبل التنزيل، خصوصًا العربية والجداول والأعمدة. قد يحتاج التنسيق المعقد إلى تعديل يدوي.</p>
+    </section>
+    <footer>
+      <p class="disclaimer">نتائج OCR وترتيب النص تختلف بحسب جودة الملف وطريقة إنشائه. لا توجد خوارزمية واحدة تضمن إصلاح كل ملفات PDF العربية.</p>
+    </footer>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script type="module" src="./script.js"></script>
+</body>
+</html>
